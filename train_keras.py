@@ -11,9 +11,9 @@ Y = titanic['Survived'].values #target
 
 model = Sequential([
     Input(shape =(2,)),
-    Dense(3, activation='relu'),
-    Dense(2, activation="relu"),
-    Dense(1, activation="sigmoid")])
+    Dense(5, activation='sigmoid'),
+    Dense(3, activation="sigmoid"),
+    Dense(1, activation="relu")])
 
 model.compile(loss='binary_crossentropy', optimizer="sgd")
 
@@ -35,5 +35,5 @@ val_loss = history.history['val_loss']
 print("\nFinal Training Loss:", loss[-1])
 print("Final Validation Loss:", val_loss[-1])
 
-converged_epochs = np.argmin(val_loss) + 1  # Index of minimum val_loss, +1 to count epochs
+converged_epochs = np.argmin(val_loss) + 1 
 print(f"The model converged after {converged_epochs} epochs with the minimum validation loss of {min(val_loss)}.")
