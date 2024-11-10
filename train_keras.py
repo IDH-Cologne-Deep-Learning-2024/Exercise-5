@@ -51,4 +51,3 @@ for i, layer in enumerate(model.layers):
     print(weights)
     print(f'Layer {i}: Bias after training')
     print(biases)
-
