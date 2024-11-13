@@ -32,3 +32,6 @@ print(model.layers[0].get_weights())
 print(model.layers[1].get_weights())
 print(model.layers[2].get_weights())
 
+
+
+
