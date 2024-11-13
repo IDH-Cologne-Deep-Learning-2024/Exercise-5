@@ -1,8 +1,4 @@
-import pandas as pd
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Input
 # Exercise 5 skr4ll
-
 import pandas as pd
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Input
@@ -31,7 +27,7 @@ model.fit(
     x=x,
     y=y,
     batch_size=9,
-    epochs=100,
+    epochs=35,
     verbose=1,
     validation_split=0.3,
     shuffle=True
@@ -42,4 +38,5 @@ print(model.layers[0].get_weights())
 print(model.layers[1].get_weights())
 print(model.layers[2].get_weights())
 
-# the model seems to converge to a loss of ~ 0.67 with the above settings
+# the models val_loss converges to around 0.668 after around 35 epochs with the above values, with the 4th
+# decimal digit jumping around a bit afterwards
