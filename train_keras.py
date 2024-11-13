@@ -1,52 +1,23 @@
-# Import necessary libraries
 import pandas as pd
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-import matplotlib.pyplot as plt
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense, Input
 
-# Step 1: Load the data
-data = pd.read_csv('titanic_data.csv')  # Adjust the path if necessary
+df = pd.read_csv('titanic.csv')
+clean_df = df.dropna()
+x = clean_df[["Age", "Pclass"]]
+y = clean_df["Survived"]
 
-# Step 2: Prepare the data
-# Select relevant features and target variable
-X = data[['Age', 'Pclass']]
-y = data['Survived']
+FFNN = Sequential()
+FFNN.add(Input(shape=(2,)))
+FFNN.add(Dense(3, use_bias=True, activation='relu'))
+FFNN.add(Dense(2, use_bias=True, activation='relu'))
+FFNN.add(Dense(1, use_bias=True, activation='sigmoid'))
+FFNN.compile(loss='binary_crossentropy', optimizer="sgd")
 
-# Handle missing values in "Age" by filling with the mean
-X['Age'].fillna(X['Age'].mean(), inplace=True)
+FFNN.fit(x = x, y = y, epochs = 100, verbose = 2, validation_freq=3)
 
-# Step 3: Define the neural network model
-model = Sequential([
-    Dense(16, activation='relu', input_shape=(2,)),  # Input layer + first hidden layer
-    Dense(8, activation='relu'),                     # Second hidden layer
-    Dense(1, activation='sigmoid')                   # Output layer for binary classification
-])
+print(FFNN.layers[0].get_weights())
+print(FFNN.layers[1].get_weights())
+print(FFNN.layers[2].get_weights())
 
-# Compile the model with optimizer, loss function, and metrics
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-# Step 4: Inspect initial weights
-initial_weights = [layer.get_weights() for layer in model.layers]
-print("Initial Weights:")
-for i, weights in enumerate(initial_weights):
-    print(f"Layer {i + 1} weights:", weights)
-
-# Step 5: Train the model and record training history
-history = model.fit(X, y, epochs=50, batch_size=32, verbose=1)
-
-# Step 6: Inspect weights after training
-trained_weights = [layer.get_weights() for layer in model.layers]
-print("\nTrained Weights:")
-for i, weights in enumerate(trained_weights):
-    print(f"Layer {i + 1} weights:", weights)
-
-# Step 7: Plot the training loss to check convergence
-plt.plot(history.history['loss'])
-plt.title('Model Loss Over Epochs')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.show()
-
-# Additional check: Print number of epochs until loss stabilizes
-final_loss = history.history['loss'][-1]
-print(f"\nFinal Loss: {final_loss:.4f}")
+FFNN.summary()
