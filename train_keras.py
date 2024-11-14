@@ -11,8 +11,9 @@ Y = titanic['Survived'].values #target
 
 model = Sequential([
     Input(shape =(2,)),
-    Dense(5, activation='sigmoid'),
-    Dense(3, activation="sigmoid"),
+    Dense(6, activation='sigmoid'),
+    Dense(5, activation="sigmoid"),
+    Dense(3, activation="relu"),
     Dense(1, activation="relu")])
 
 model.compile(loss='binary_crossentropy', optimizer="sgd")
@@ -22,7 +23,7 @@ for layer in model.layers:
     weights, biases = layer.get_weights()
     print(f"Weights: {weights}, Biases: {biases}")
 
-history = model.fit(X, Y, epochs=200, batch_size=64, validation_split=0.2, verbose=1)
+history = model.fit(X, Y, epochs=300, batch_size=32, validation_split=0.2, verbose=1)
 
 print("\nWeights after training:")
 for layer in model.layers:
